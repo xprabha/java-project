@@ -1,0 +1,176 @@
+import java.io.*;
+import java.util.*;
+
+class DigitalNoteOrganizer {
+
+    static final String FILE_NAME = "notes.txt";
+
+    //  Create Note
+    public static void createNote(Scanner sc) {
+        try {
+            FileWriter fw = new FileWriter(FILE_NAME, true);
+            System.out.println("Enter your note:");
+            String note = sc.nextLine();
+
+            if (note.isEmpty()) {
+                System.out.println("Note cannot be empty!");
+                return;
+            }
+
+            fw.write(note + "\n");
+            fw.close();
+            System.out.println("✅ Note saved successfully!");
+        } catch (IOException e) {
+            System.out.println("Error saving note!");
+        }
+    }
+
+    //  View Notes
+    public static void viewNotes() {
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(FILE_NAME));
+            String line;
+            int count = 1;
+
+            System.out.println("\n📒 Saved Notes:");
+            while ((line = br.readLine()) != null) {
+                System.out.println(count + ". " + line);
+                count++;
+            }
+
+            br.close();
+        } catch (IOException e) {
+            System.out.println("No notes found!");
+        }
+    }
+
+    //  Edit Note
+    public static void editNote(Scanner sc) {
+        try {
+            List<String> notes = new ArrayList<>();
+            BufferedReader br = new BufferedReader(new FileReader(FILE_NAME));
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                notes.add(line);
+            }
+            br.close();
+
+            if (notes.isEmpty()) {
+                System.out.println("No notes to edit!");
+                return;
+            }
+
+            viewNotes();
+            System.out.print("Enter note number to edit: ");
+            int index = sc.nextInt();
+            sc.nextLine();
+
+            if (index <= 0 || index > notes.size()) {
+                System.out.println("Invalid choice!");
+                return;
+            }
+
+            System.out.println("Enter new content:");
+            String newNote = sc.nextLine();
+            notes.set(index - 1, newNote);
+
+            BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME));
+            for (String n : notes) {
+                bw.write(n);
+                bw.newLine();
+            }
+            bw.close();
+
+            System.out.println("✏️ Note updated successfully!");
+
+        } catch (IOException e) {
+            System.out.println("Error editing note!");
+        }
+    }
+
+    //  Delete Note
+    public static void deleteNote(Scanner sc) {
+        try {
+            List<String> notes = new ArrayList<>();
+            BufferedReader br = new BufferedReader(new FileReader(FILE_NAME));
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                notes.add(line);
+            }
+            br.close();
+
+            if (notes.isEmpty()) {
+                System.out.println("No notes to delete!");
+                return;
+            }
+
+            viewNotes();
+            System.out.print("Enter note number to delete: ");
+            int index = sc.nextInt();
+            sc.nextLine();
+
+            if (index <= 0 || index > notes.size()) {
+                System.out.println("Invalid choice!");
+                return;
+            }
+
+            notes.remove(index - 1);
+
+            BufferedWriter bw = new BufferedWriter(new FileWriter(FILE_NAME));
+            for (String n : notes) {
+                bw.write(n);
+                bw.newLine();
+            }
+            bw.close();
+
+            System.out.println("🗑️ Note deleted successfully!");
+
+        } catch (IOException e) {
+            System.out.println("Error deleting note!");
+        }
+    }
+
+    //  Main Menu
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int choice;
+
+        do {
+            System.out.println("\n===== DIGITAL NOTE ORGANIZER =====");
+            System.out.println("1. Create Note");
+            System.out.println("2. View Notes");
+            System.out.println("3. Edit Note");
+            System.out.println("4. Delete Note");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+
+            choice = sc.nextInt();
+            sc.nextLine();
+
+            switch (choice) {
+                case 1:
+                    createNote(sc);
+                    break;
+                case 2:
+                    viewNotes();
+                    break;
+                case 3:
+                    editNote(sc);
+                    break;
+                case 4:
+                    deleteNote(sc);
+                    break;
+                case 5:
+                    System.out.println("👋 Exiting... Thank you!");
+                    break;
+                default:
+                    System.out.println("Invalid choice!");
+            }
+
+        } while (choice != 5);
+
+        sc.close();
+    }
+}
