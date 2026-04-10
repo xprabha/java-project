@@ -5,7 +5,6 @@ class DigitalNoteOrganizer {
 
     static final String FILE_NAME = "notes.txt";
 
-    //  Create Note
     public static void createNote(Scanner sc) {
         try {
             FileWriter fw = new FileWriter(FILE_NAME, true);
@@ -19,20 +18,19 @@ class DigitalNoteOrganizer {
 
             fw.write(note + "\n");
             fw.close();
-            System.out.println("✅ Note saved successfully!");
+            System.out.println("Note saved successfully!");
         } catch (IOException e) {
             System.out.println("Error saving note!");
         }
     }
 
-    //  View Notes
     public static void viewNotes() {
         try {
             BufferedReader br = new BufferedReader(new FileReader(FILE_NAME));
             String line;
             int count = 1;
 
-            System.out.println("\n📒 Saved Notes:");
+            System.out.println("\nSaved Notes:");
             while ((line = br.readLine()) != null) {
                 System.out.println(count + ". " + line);
                 count++;
@@ -44,7 +42,6 @@ class DigitalNoteOrganizer {
         }
     }
 
-    //  Edit Note
     public static void editNote(Scanner sc) {
         try {
             List<String> notes = new ArrayList<>();
@@ -82,14 +79,13 @@ class DigitalNoteOrganizer {
             }
             bw.close();
 
-            System.out.println("✏️ Note updated successfully!");
+            System.out.println("Note updated successfully!");
 
         } catch (IOException e) {
             System.out.println("Error editing note!");
         }
     }
 
-    //  Delete Note
     public static void deleteNote(Scanner sc) {
         try {
             List<String> notes = new ArrayList<>();
@@ -125,14 +121,13 @@ class DigitalNoteOrganizer {
             }
             bw.close();
 
-            System.out.println("🗑️ Note deleted successfully!");
+            System.out.println("Note deleted successfully!");
 
         } catch (IOException e) {
             System.out.println("Error deleting note!");
         }
     }
 
-    //  Main Menu
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int choice;
@@ -163,7 +158,7 @@ class DigitalNoteOrganizer {
                     deleteNote(sc);
                     break;
                 case 5:
-                    System.out.println("👋 Exiting... Thank you!");
+                    System.out.println("Exiting... Thank you!");
                     break;
                 default:
                     System.out.println("Invalid choice!");
